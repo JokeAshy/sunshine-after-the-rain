@@ -1,0 +1,131 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  .satr-root {
+    font-family: 'Bebas Neue', sans-serif;
+    background: #000;
+    color: #fff;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius-lg);
+  }
+  .satr-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://i.imgur.com/iIRQpOZ.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px) brightness(0.3);
+    transform: scale(1.15);
+    z-index: 0;
+  }
+  .satr-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65));
+    z-index: 1;
+  }
+  .satr-content {
+    position: relative;
+    z-index: 2;
+    padding: 32px 20px;
+    animation: satrFadeUp 1.2s ease;
+  }
+  .satr-cover {
+    width: min(160px, 45vw);
+    margin: 0 auto 22px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 4px solid rgba(255,255,255,0.92);
+    box-shadow: 0 0 40px rgba(255,255,255,0.12), 0 12px 32px rgba(0,0,0,0.6);
+  }
+  .satr-cover img { width: 100%; display: block; }
+  .satr-title {
+    font-size: clamp(2.2rem, 7vw, 4.2rem);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .satr-sub {
+    font-size: 1rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 36px;
+  }
+  .satr-countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .satr-box {
+    width: 140px;
+    padding: 20px 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .satr-time { font-size: 3.8rem; line-height: 1; }
+  .satr-label {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+  .satr-sep { font-size: 3.8rem; opacity: 0.7; margin-top: -12px; }
+  .satr-released {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  @keyframes satrFadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+<div class="satr-root">
+  <div class="satr-bg"></div>
+  <div class="satr-overlay"></div>
+  <div class="satr-content" id="satrContent">
+    <div class="satr-cover">
+      <img src="https://i.imgur.com/iIRQpOZ.png" alt="Sunshine After the Rain cover art" />
+    </div>
+    <div class="satr-title">Sunshine After the Rain</div>
+    <div class="satr-sub">Releasing Soon</div>
+    <div class="satr-countdown">
+      <div class="satr-box">
+        <div class="satr-time" id="satrMin">02</div>
+        <div class="satr-label">Minutes</div>
+      </div>
+      <div class="satr-sep">:</div>
+      <div class="satr-box">
+        <div class="satr-time" id="satrSec">00</div>
+        <div class="satr-label">Seconds</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const releaseTime = Date.now() + 2 * 60 * 1000;
+  const timer = setInterval(tick, 1000);
+  function tick() {
+    const diff = releaseTime - Date.now();
+    if (diff <= 0) {
+      clearInterval(timer);
+      document.getElementById('satrContent').innerHTML = '<div class="satr-released">Releasing Never<br>Sunshine After the Rain</div>';
+      return;
+    }
+    document.getElementById('satrMin').textContent = String(Math.floor(diff / 60000)).padStart(2,'0');
+    document.getElementById('satrSec').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }
+  tick();
+</script>
